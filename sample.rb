@@ -56,6 +56,11 @@ def all
   end
 end
 
+def download key, filename
+  zip = Clicksign::Document.download(key)
+  File.open(filename, 'wb') { |f| f.write(zip) } if zip
+end
+
 def find key
   doc = Clicksign::Document.find key
   pretty_print doc
@@ -86,5 +91,7 @@ key = create_with_list "pdf/a.pdf"
 puts "\n#{key} created"
 
 find key
-
 cancel key
+
+download "45a53dcf-9334-43f1-bd9e-e6e924690510", "/tmp/a.zip"
+puts "Check /tmp/a.zip"
